@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { isSupported, getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -13,7 +13,14 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+if (isSupported()) {
+  const analytics =  getAnalytics(app);
+}
+isSupported().then((supported) => {
+  if (supported) {
+      const analytics = getAnalytics(app);
+  }
+});
 const firestore = getFirestore(app);
 
 export { firestore };
